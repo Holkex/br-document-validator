@@ -21,9 +21,10 @@ public final class DocumentValidator {
   public static boolean isCnpjValid(String cnpj) {
     if (cnpj == null) return false;
 
-    cnpj = cnpj.replaceAll("\\D", "");
+    // Remove caracteres especiais, mantendo letras e números
+    cnpj = cnpj.replaceAll("[^A-Za-z0-9]", "").toUpperCase();
 
-    if (!cnpj.matches("\\d{14}")) return false;
+    if (!cnpj.matches("[A-Z0-9]{12}\\d{2}")) return false;
     if (cnpj.chars().distinct().count() == 1) return false;
 
     int d1 = calculateCnpjDigit(cnpj.substring(0, 12));
@@ -33,10 +34,13 @@ public final class DocumentValidator {
   }
 
   public static String whatsDocumentIs(String documento){
-   if( isCpfValid(documento))
+   if( documento == null ) return "Document is null";
+   String clean = documento.replaceAll("[^A-Za-z0-9]", "");
+   
+   if( isCpfValid(clean))
       return "CPF";
 
-   if( isCnpjValid(documento))
+   if( isCnpjValid(clean))
       return "CNPJ";
     
     return "Document is not CNPJ or CPF";
@@ -49,7 +53,7 @@ public final class DocumentValidator {
    */
   public static String formatCpf(String cpf) {
     if (cpf == null) return null;
-    String clean = cpf.replaceAll("\\D", "");
+    String clean = cpf.replaceAll("[^A-Za-z0-9]", "").toUpperCase();
     if (clean.length() != 11) return cpf;
     return String.format("%s.%s.%s-%s",
         clean.substring(0, 3),
@@ -65,7 +69,7 @@ public final class DocumentValidator {
    */
   public static String formatCnpj(String cnpj) {
     if (cnpj == null) return null;
-    String clean = cnpj.replaceAll("\\D", "");
+    String clean = cnpj.replaceAll("[^A-Za-z0-9]", "").toUpperCase();
     if (clean.length() != 14) return cnpj;
     return String.format("%s.%s.%s/%s-%s",
         clean.substring(0, 2),

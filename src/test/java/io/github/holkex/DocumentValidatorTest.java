@@ -43,4 +43,11 @@ class DocumentValidatorTest {
     void shouldFormatCnpj() {
         assertEquals("11.222.333/0001-81", DocumentValidator.formatCnpj("11222333000181"));
     }
+
+    @Test
+    void shouldValidateAlphanumericCnpj() {
+        // Exemplo baseado na lógica ASCII-48 (A=17, 1, B=18, 2, C=19, 3, D=20, 4, E=21, 5, F=22, 6) -> Dígitos 68
+        assertTrue(DocumentValidator.isCnpjValid("A1B2C3D4E5F668"));
+        assertTrue(DocumentValidator.isCnpjValid("A1.B2C.3D4/E5F6-68"));
+    }
 }
