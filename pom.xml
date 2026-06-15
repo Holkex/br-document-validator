@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.github.vinicius</groupId>
+  <artifactId>br-document-validator</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>Brazil Document Validator</name>
+  <description>Biblioteca Java para validação e formatação de CPF e CNPJ</description>
+  <url>https://github.com/vinicius/br-document-validator</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Vinicius</name>
+      <email>vinicius@example.com</email>
+      <organization>io.github.vinicius</organization>
+      <organizationUrl>https://github.com/vinicius</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/vinicius/br-document-validator.git</connection>
+    <developerConnection>scm:git:ssh://github.com:vinicius/br-document-validator.git</developerConnection>
+    <url>http://github.com/vinicius/br-document-validator/tree/main</url>
+  </scm>
+
+  <!-- 🔧 Configurações do Java -->
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <!-- 🧪 Testes modernos -->
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- 🚀 Suporte a JUnit 5 no Maven -->
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
