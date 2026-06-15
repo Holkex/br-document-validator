@@ -1,4 +1,4 @@
-package io.github.vinicius;
+package io.github.holkex;
 
 public final class DocumentValidator {
 

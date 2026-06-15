@@ -33,18 +33,46 @@ Para garantir que a biblioteca funciona como esperado:
 
 ## 3. Publicação Oficial (Maven Central / OSSRH)
 
-Para que **qualquer pessoa no mundo** possa usar sua biblioteca via Maven, você precisa publicá-la em um repositório central (como o Maven Central via Sonatype OSSRH).
+Publicar no Maven Central torna sua biblioteca "oficial". É o que permite que alguém a use apenas adicionando a `<dependency>` sem precisar de um `<repository>` extra.
 
-### Requisitos Obrigatórios:
-1.  **Chave GPG**: Você deve assinar seus arquivos `.jar`.
-2.  **Javadoc e Sources**: O Maven Central exige que você envie o código-fonte e a documentação Javadoc.
-3.  **Conta no JIRA da Sonatype**: Você precisa abrir um chamado para validar que você é dono do domínio `io.github.vinicius`.
+### Passo 1: Conta no Sonatype (OSSRH)
+1.  Acesse o [Sonatype JIRA](https://issues.sonatype.org/) ou o novo portal [Central Portal](https://central.sonatype.com/).
+2.  Crie uma conta e abra um chamado (Ticket) de "New Project".
+3.  Você terá que provar que é dono do `io.github.holkex`. Geralmente eles pedem para você criar um repositório vazio com um nome específico no seu GitHub.
 
-### Plugins Necessários no `pom.xml`:
-Você precisará adicionar estes plugins para gerar os arquivos exigidos:
-*   `maven-source-plugin` (gera o -sources.jar)
-*   `maven-javadoc-plugin` (gera o -javadoc.jar)
-*   `maven-gpg-plugin` (assina os arquivos)
+### Passo 2: Assinatura GPG (Obrigatório)
+O Maven Central exige que todos os arquivos sejam assinados digitalmente.
+1.  Instale o [GnuPG](https://gnupg.org/download/).
+2.  Gere uma chave: `gpg --gen-key`.
+3.  Distribua sua chave pública para um servidor de chaves: `gpg --keyserver keyserver.ubuntu.com --send-keys SUA_CHAVE`.
+
+### Passo 3: Configurar o `settings.xml` do seu PC
+Você não coloca sua senha do Sonatype no `pom.xml`. Você coloca no arquivo global do Maven (`~/.m2/settings.xml`):
+```xml
+<settings>
+  <servers>
+    <server>
+      <id>ossrh</id>
+      <username>seu_usuario_sonatype</username>
+      <password>sua_senha_ou_token</password>
+    </server>
+  </servers>
+</settings>
+```
+
+### Passo 4: Plugins Necessários no `pom.xml`
+Para o Maven Central aceitar, seu projeto **precisa** enviar o código-fonte e o Javadoc. Eu já preparei a estrutura básica, mas você precisará ativar estes plugins para o deploy:
+*   `maven-source-plugin`: Gera o JAR com o código-fonte.
+*   `maven-javadoc-plugin`: Gera o JAR com a documentação.
+*   `maven-gpg-plugin`: Faz a assinatura digital.
+*   `nexus-staging-maven-plugin`: Envia tudo para o servidor da Sonatype.
+
+### Passo 5: O Comando de Deploy
+Quando tudo estiver configurado:
+```bash
+mvn clean deploy -P release
+```
+Isso enviará sua biblioteca para um "Staging Repository". Você entra no site da Sonatype, confere se está tudo certo, e clica em **"Release"**. Em algumas horas, ela estará no search.maven.org.
 
 ---
 
